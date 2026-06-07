@@ -6,7 +6,7 @@ const Footer = () => {
     <div>
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm ">
         <div>
-          <img src={assets.logo} alt="" />
+          <img src={assets.logoo} alt="" className="w-50 border border-gray-100" />
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. numquam! Repellat.</p>
         </div>
 
@@ -31,7 +31,7 @@ const Footer = () => {
 
       <div>
         <hr />
-        <p className="py-5 text-sm text-center">Copyright 2026@ forever.com -All Right Reserved.</p>
+        <p className="py-5 text-sm text-center">Copyright 2026@drip.com -All Right Reserved.</p>
       </div>
     </div>
   );

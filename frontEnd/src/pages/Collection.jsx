@@ -5,16 +5,12 @@ import { ShopContext } from "../context/ShopContext";
 import ProductItem from "../components/ProductItem";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relavent");
-
-  useEffect(() => {
-    console.log(category, subCategory);
-  }, [category, subCategory]);
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -34,13 +30,17 @@ const Collection = () => {
 
   const applyFilter = () => {
     let copyProducts = products.slice();
+
+    if (search && showSearch) {
+      copyProducts = copyProducts.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+    }
+
     if (category.length > 0) {
       copyProducts = copyProducts.filter((item) => category.includes(item.category));
     }
     if (subCategory.length > 0) {
       copyProducts = copyProducts.filter((item) => subCategory.includes(item.subCategory));
     }
-
     setFilterProducts(copyProducts);
   };
 
@@ -61,7 +61,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory]);
+  }, [category, subCategory, search, showSearch]);
 
   useEffect(() => {
     sortProduct();
