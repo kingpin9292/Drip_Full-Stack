@@ -1,6 +1,12 @@
 import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt, { genSalt } from "bcrypt";
+import JWT from "jsonwebtoken";
+import "dotenv/config";
+
+const createToken = (id) => {
+  return JWT.sign({ id }, process.env.JWT_SECRET);
+};
 
 const registerUser = async (req, res) => {
   try {
@@ -20,8 +26,8 @@ const registerUser = async (req, res) => {
       return res.json({ success: false, msg: "Please provide a strong password" });
     }
 
-    const salt = bcrypt.genSalt(10);
-    const hashedPassword = bcrypt.hash(password, genSalt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     /*way-1 :used for modifying document before saving
     const newUser = new userModel({ name, email, password: hashedPassword });
@@ -29,12 +35,31 @@ const registerUser = async (req, res) => {
 
     //alternative way:creating instant document
     const newUser = await userModel.create({ name, email, password: hashedPassword });
+
+    const token = createToken(newUser._id);
+
+    res.json({ success: true, token });
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: err.message });
   }
 };
+
 const loginUser = async (req, res) => {
-  res.json({ msg: "aa" });
+  const { email, password } = req.body;
+
+  const user = await userModel.findOne({ email });
+  if (!user) {
+    res.json({ success: false, msg: "User don't exist" });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (isMatch) {
+    const token = createToken(user._id);
+    res.json({ success: true, token });
+  } else {
+    res.json({ success: false, msg: "Invalid credentials" });
+  }
 };
 
 const adminLogin = async (req, res) => {};
