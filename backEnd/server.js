@@ -4,10 +4,12 @@ import "dotenv/config";
 import connectDb from "./config/mongodb.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
+import connectCloudinary from "./config/cloudinary.js";
 
 const app = express();
 const port = process.env.port || 4000;
 connectDb();
+connectCloudinary();
 //middleware
 app.use(express.json());
 app.use(cors());

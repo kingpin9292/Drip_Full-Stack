@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { assets } from "../assets/assets";
+import axios from "axios";
+import { backendUrl } from "../App";
+import { ToastContainer, toast } from "react-toastify";
 
-const Add = () => {
+const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
@@ -12,11 +15,50 @@ const Add = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Men");
   const [subCategory, setSubCategory] = useState("Topwear");
-  const [bestseller, setBestseller] = useState(true);
+  const [bestseller, setBestseller] = useState(false);
   const [sizes, setSizes] = useState([]);
 
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("subCategory", subCategory);
+      formData.append("bestseller", bestseller);
+      formData.append("sizes", JSON.stringify(sizes));
+
+      image1 && formData.append("image1", image1);
+      image2 && formData.append("image2", image2);
+      image3 && formData.append("image3", image3);
+      image4 && formData.append("image4", image4);
+
+      const response = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } });
+
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        setName("");
+        setDescription("");
+        setPrice("");
+        setImage1(false);
+        setImage2(false);
+        setImage3(false);
+        setImage4(false);
+      } else {
+        toast.error(response.data.msg);
+        console.log(response.data.msg);
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
+
   return (
-    <form className="flex flex-col w-full items-start gap-3 pl-12 mt-8">
+    <form onSubmit={onSubmitHandler} className="flex flex-col w-full items-start gap-3 pl-12 mt-8">
+      <ToastContainer />
       <div>
         <p className="mb-2">Upload Image</p>
 
