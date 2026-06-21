@@ -1,27 +1,53 @@
 import userModel from "../models/userModel.js";
 const addToCart = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const userData = await userModel.findById({ userId });
-    let cardData = userData.cardData;
-    if (cardData[itemId]) {
-      if (cardData[itemId][size]) {
-        cardData[itemId][size] += 1;
+    const { userId, itemId, size } = req.body;
+    const userData = await userModel.findById(userId);
+    let cartData = await userData.cartData;
+
+    if (cartData[itemId]) {
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
       } else {
-        cardData[itemId][size] = 1;
+        cartData[itemId][size] = 1;
       }
     } else {
-      cardData[itemId] = {};
-      cardData[itemId][size] = 1;
+      cartData[itemId] = {};
+      cartData[itemId][size] = 1;
     }
-    await userModel.findByIdAndUpdate(userId, { cardData });
+    await userModel.findByIdAndUpdate(userId, { cartData });
+
     res.json({ success: true, msg: "Added to cart" });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, msg: error.message });
   }
 };
-const updateCart = async () => {};
-const getUserCart = async () => {};
+const updateCart = async (req, res) => {
+  try {
+    const { userId, itemId, size, quantity } = req.body;
+    const userData = await userModel.findById(userId);
+    let cartData = await userData.cartData;
 
-export default { addToCart, updateCart, getUserCart };
+    cartData[itemId][size] = quantity;
+
+    await userModel.findByIdAndUpdate(userId, { cartData });
+    res.json({ success: true, msg: "Successfully updated cart!" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, msg: error.message });
+  }
+};
+const getUserCart = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const userData = await userModel.findById(userId);
+    let cartData = await userData.cartData;
+    res.json({ success: true, cartData });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, msg: error.message });
+  }
+};
+
+export { addToCart, updateCart, getUserCart };
