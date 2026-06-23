@@ -1,5 +1,5 @@
-import orderModel from "../models/orderModel";
-import userModel from "../models/userModel";
+import orderModel from "../models/orderModel.js";
+import userModel from "../models/userModel.js";
 //placing orders using COD Method
 const placeOrder = async (req, res) => {
   try {
@@ -39,6 +39,15 @@ const allOrders = async (req, res) => {};
 const updateStatus = async (req, res) => {};
 
 //User Order Data for Frontend
-const userOrders = async (req, res) => {};
+const userOrders = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const orders = await orderModel.find({ userId });
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, msg: error.message });
+  }
+};
 
 export { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, updateStatus, userOrders };

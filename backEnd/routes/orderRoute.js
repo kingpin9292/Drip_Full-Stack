@@ -6,7 +6,7 @@ import {
   allOrders,
   updateStatus,
   userOrders,
-} from "../controllers/cartController.js";
+} from "../controllers/orderController.js";
 import adminAuth from "../middleware/adminAuth.js";
 import authUser from "../middleware/auth.js";
 import userAuth from "../middleware/auth.js";
