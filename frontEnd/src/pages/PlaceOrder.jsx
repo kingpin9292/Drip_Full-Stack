@@ -64,7 +64,13 @@ const PlaceOrder = () => {
             toast.error(response.data.msg);
           }
           break;
-
+        case "stripe":
+          const responseStripe = await axios.post(
+            backEndUrl + "/api/order/stripe",
+            { orderData },
+            { headers: { token } },
+          );
+          break;
         default:
           break;
       }
