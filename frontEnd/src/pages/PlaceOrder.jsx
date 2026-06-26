@@ -41,23 +41,21 @@ const PlaceOrder = () => {
       receipt: order.receipt,
       handler: async (response) => {
         console.log(response);
-        
-       try {
-         const { data } = await axios.post(backEndUrl + "/api/order/verifyRazorpay", response, { headers: { token } });
-        if (data.success) {
-          navigate("/orders");
-          setCartItems({});
-        }
-       } catch (error) {
-        toast.error(error.message)
-        console.log(error.message);
-        
-       } 
+
+        try {
+          const { data } = await axios.post(backEndUrl + "/api/order/verifyRazorpay", response, { headers: { token } });
+          if (data.success) {
+            navigate("/orders");
+            setCartItems({});
+          }
+        } catch (error) {
+          toast.error(error.message);
+          console.log(error.message);
         }
       },
     };
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+    const rzpay = new window.Razorpay(options);
+    rzpay.open();
   };
 
   const onSubmitHandler = async (e) => {
@@ -96,11 +94,7 @@ const PlaceOrder = () => {
           break;
 
         case "stripe":
-          const responseStripe = await axios.post(
-            backEndUrl + "/api/order/stripe",
-            { orderData },
-            { headers: { token } },
-          );
+          const responseStripe = await axios.post(backEndUrl + "/api/order/stripe", orderData, { headers: { token } });
           if (responseStripe.data.success) {
             const { session_url } = responseStripe.data;
             window.location.replace(session_url);
@@ -264,5 +258,4 @@ const PlaceOrder = () => {
     </form>
   );
 };
-
 export default PlaceOrder;

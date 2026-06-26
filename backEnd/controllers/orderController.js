@@ -1,10 +1,10 @@
-import { currency } from "../../Admin/src/App.jsx";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
 import razorpay from "razorpay";
 //global variables
 const deliveryCharge = 10;
+const currency = "USD";
 
 //initiate payment instance
 const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -89,7 +89,7 @@ const placeOrderStripe = async (req, res) => {
     });
     res.json({ success: true, session_url: session.url });
   } catch (error) {
-    log(error.message);
+    console.log(error.message);
     res.json({ success: false, msg: error.message });
   }
 };
@@ -117,7 +117,7 @@ const placeOrderRazorpay = async (req, res) => {
   try {
     const { userId, items, amount, address } = req.body;
 
-    const oredrData = {
+    const orderData = {
       userId,
       items,
       address,
@@ -127,7 +127,7 @@ const placeOrderRazorpay = async (req, res) => {
       date: Date.now(),
     };
 
-    const newOrder = new orderModel(orderModel);
+    const newOrder = new orderModel(orderData);
     await newOrder.save();
 
     const options = {
