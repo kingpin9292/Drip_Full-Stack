@@ -206,6 +206,28 @@ const userOrders = async (req, res) => {
   }
 };
 
+///////////
+const trackSingleOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    const order = await orderModel.findById(orderId);
+
+    if (!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    return res.json({
+      success: true,
+      status: order.status,
+      paymentMethod: order.paymentMethod,
+      payment: order.payment,
+      date: order.date,
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
 export {
   placeOrder,
   placeOrderStripe,
@@ -215,4 +237,5 @@ export {
   userOrders,
   verifyStripe,
   verifyRazorpay,
+  trackSingleOrder,
 };

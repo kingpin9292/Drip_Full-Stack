@@ -19,6 +19,7 @@ const Orders = () => {
         let allOrdersItem = [];
         response.data.orders.map((order) => {
           order.items.map((item) => {
+            item["orderId"] = order._id;
             item["status"] = order.status;
             item["paymentMethod"] = order.paymentMethod;
             item["payment"] = order.payment;
@@ -37,6 +38,24 @@ const Orders = () => {
   useEffect(() => {
     loadOrderData();
   }, [token]);
+
+  const trackSingleOrder = async (item) => {
+    try {
+      const response = await axios.post(`${backEndUrl}/api/order/track/${item.orderId}`, {}, { headers: { token } });
+
+      if (response.data.success) {
+        const updated = response.data;
+
+        setOrderData((prev) => prev.map((p) => (p._id === item._id ? { ...p, status: updated.status } : p)));
+      } else {
+        toast.error(response.data.message || "Unable to track order");
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="border-t pt-16">
       <div className="text-2xl">
@@ -74,7 +93,10 @@ const Orders = () => {
                 <p className="min-w-2 h-2 rounded-full bg-green-500"></p>
                 <p className="text-sm md:text-base ">{item.status}</p>
               </div>
-              <button onClick={loadOrderData} className="border px-4 py-2 text-sm font-medium rounded-sm">
+              <button
+                onClick={() => trackSingleOrder(item)}
+                className="border px-4 py-2 text-sm font-medium rounded-sm"
+              >
                 Track order
               </button>
             </div>

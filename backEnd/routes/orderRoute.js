@@ -8,6 +8,7 @@ import {
   userOrders,
   verifyStripe,
   verifyRazorpay,
+  trackSingleOrder,
 } from "../controllers/orderController.js";
 import adminAuth from "../middleware/adminAuth.js";
 import authUser from "../middleware/auth.js";
@@ -27,7 +28,8 @@ orderRouter.post("/razorpay", userAuth, placeOrderRazorpay);
 orderRouter.post("/userorders", authUser, userOrders);
 
 //verify payment
-orderRouter.post("/verifyStripe", authUser, verifyStripe);
+orderRouter.post("/verifystripe", authUser, verifyStripe);
 orderRouter.post("/verifyRazorpay", authUser, verifyRazorpay);
-
+////////////
+orderRouter.post("/track/:orderId", authUser, trackSingleOrder);
 export default orderRouter;
