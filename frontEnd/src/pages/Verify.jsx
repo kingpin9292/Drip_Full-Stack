@@ -17,7 +17,7 @@ const Verify = () => {
         return null;
       }
       const response = await axios.post(
-        backEndUrl + "/api/order/verifystripe",
+        backEndUrl + "/api/order/verifyStripe",
         { orderId, success },
         { headers: { token } },
       );
