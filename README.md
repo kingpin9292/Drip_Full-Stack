@@ -1,6 +1,6 @@
 # Drip — Full‑Stack E‑Commerce Demo
 
-A polished full‑stack e‑commerce application with separate Customer and Admin React frontends (Vite + Tailwind) and a Node.js + Express + MongoDB backend. Drip showcases product CRUD, image uploads (Cloudinary), shopping cart and order flows — an excellent portfolio project to demo end‑to‑end development skills to recruiters.
+A polished full‑stack e‑commerce application with separate Customer and Admin React frontends (Vite + Tailwind) and a Node.js + Express + MongoDB backend. Drip showcases product CRUD, image uploads (Cloudinary), shopping cart and order flows — an excellent portfolio project to demo end‑to‑end development skills.
 
 ---
 
@@ -147,23 +147,6 @@ Example:
 
 ---
 
-## Suggested talking points for interviews
-- Describe how you structured the API and why you separated admin/customer frontends.
-- Explain how Cloudinary is integrated for image uploads (security, signed uploads if implemented).
-- Discuss how you handle authentication (JWT) and which endpoints are protected.
-- Describe areas you’d extend next: payments, tests, CI/CD, containerization.
-
----
-
-## Roadmap & improvements
-- Add automated tests (Jest / Supertest) for backend endpoints
-- Add Docker + docker-compose for reproducible dev and demo
-- Add CI (GitHub Actions) for linting, tests, and deploy previews
-- Add payment gateway integration (Stripe / Razorpay) for checkout flow
-- Harden security: rate limiting, input validation, CORS config
-
----
-
 ## Contributing
 If you'd like to contribute:
 1. Fork the repo
@@ -178,18 +161,7 @@ Add a LICENSE file (e.g., MIT) to make reuse and hiring/assessment easier.
 ---
 
 ## Contact
-Created by Kingpin9292 — include your full name, email, LinkedIn and portfolio link here so recruiters can follow up quickly.
+Created by Jakarea Bin Anowar Choudhury.
 
-- Email: your.email@example.com
+- Email: jakarea9292@gmail.com
 - GitHub: https://github.com/kingpin9292
-- LinkedIn: https://www.linkedin.com/in/yourprofile
-
----
-
-If you want, I can:
-- Drop this directly into a README.md file for you,
-- Generate a demo GIF placeholder and a short deploy guide (Vercel / Netlify for frontends + Heroku / Render for backend),
-- Or create a docker-compose and a GitHub Actions workflow to make the project production/demo‑ready.
-
-Which would you like me to do next?
-```
