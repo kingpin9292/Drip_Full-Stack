@@ -1,7 +1,4 @@
-[README.md](https://github.com/user-attachments/files/29402728/README.md)
 # Drip — Full‑Stack E‑Commerce Demo
-
-[Live demo coming soon] • [Screenshots / GIF below]
 
 A polished full‑stack e‑commerce application with separate Customer and Admin React frontends (Vite + Tailwind) and a Node.js + Express + MongoDB backend. Drip showcases product CRUD, image uploads (Cloudinary), shopping cart and order flows — an excellent portfolio project to demo end‑to‑end development skills to recruiters.
 
